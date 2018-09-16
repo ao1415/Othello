@@ -30,11 +30,12 @@
 		{
 			this.groupPlayer01 = new System.Windows.Forms.GroupBox();
 			this.buttonExePath01 = new System.Windows.Forms.Button();
-			this.exePath01 = new System.Windows.Forms.TextBox();
+			this.textExePath01 = new System.Windows.Forms.TextBox();
 			this.groupPlayer02 = new System.Windows.Forms.GroupBox();
 			this.buttonExePath02 = new System.Windows.Forms.Button();
-			this.exePath02 = new System.Windows.Forms.TextBox();
+			this.textExePath02 = new System.Windows.Forms.TextBox();
 			this.groupConfig = new System.Windows.Forms.GroupBox();
+			this.checkLogOutput = new System.Windows.Forms.CheckBox();
 			this.textLifetime = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.numericBattleCount = new System.Windows.Forms.NumericUpDown();
@@ -53,12 +54,12 @@
 			this.textPlayer02Cerr = new System.Windows.Forms.TextBox();
 			this.textPlayer02Cout = new System.Windows.Forms.TextBox();
 			this.textPlayer02Cin = new System.Windows.Forms.TextBox();
-			this.checkLogOutput = new System.Windows.Forms.CheckBox();
 			this.groupGameLog = new System.Windows.Forms.GroupBox();
-			this.textBox3 = new System.Windows.Forms.TextBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.buttonStart = new System.Windows.Forms.Button();
 			this.buttonStop = new System.Windows.Forms.Button();
+			this.buttonStart = new System.Windows.Forms.Button();
+			this.label9 = new System.Windows.Forms.Label();
+			this.textGameLog = new System.Windows.Forms.TextBox();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.groupPlayer01.SuspendLayout();
 			this.groupPlayer02.SuspendLayout();
 			this.groupConfig.SuspendLayout();
@@ -71,7 +72,7 @@
 			// groupPlayer01
 			// 
 			this.groupPlayer01.Controls.Add(this.buttonExePath01);
-			this.groupPlayer01.Controls.Add(this.exePath01);
+			this.groupPlayer01.Controls.Add(this.textExePath01);
 			this.groupPlayer01.Location = new System.Drawing.Point(12, 12);
 			this.groupPlayer01.Name = "groupPlayer01";
 			this.groupPlayer01.Size = new System.Drawing.Size(926, 49);
@@ -87,18 +88,19 @@
 			this.buttonExePath01.TabIndex = 1;
 			this.buttonExePath01.Text = "...";
 			this.buttonExePath01.UseVisualStyleBackColor = true;
+			this.buttonExePath01.Click += new System.EventHandler(this.buttonExePath01_Click);
 			// 
-			// exePath01
+			// textExePath01
 			// 
-			this.exePath01.Location = new System.Drawing.Point(6, 18);
-			this.exePath01.Name = "exePath01";
-			this.exePath01.Size = new System.Drawing.Size(876, 19);
-			this.exePath01.TabIndex = 0;
+			this.textExePath01.Location = new System.Drawing.Point(6, 18);
+			this.textExePath01.Name = "textExePath01";
+			this.textExePath01.Size = new System.Drawing.Size(876, 19);
+			this.textExePath01.TabIndex = 0;
 			// 
 			// groupPlayer02
 			// 
 			this.groupPlayer02.Controls.Add(this.buttonExePath02);
-			this.groupPlayer02.Controls.Add(this.exePath02);
+			this.groupPlayer02.Controls.Add(this.textExePath02);
 			this.groupPlayer02.Location = new System.Drawing.Point(12, 67);
 			this.groupPlayer02.Name = "groupPlayer02";
 			this.groupPlayer02.Size = new System.Drawing.Size(926, 49);
@@ -114,13 +116,14 @@
 			this.buttonExePath02.TabIndex = 2;
 			this.buttonExePath02.Text = "...";
 			this.buttonExePath02.UseVisualStyleBackColor = true;
+			this.buttonExePath02.Click += new System.EventHandler(this.buttonExePath02_Click);
 			// 
-			// exePath02
+			// textExePath02
 			// 
-			this.exePath02.Location = new System.Drawing.Point(6, 18);
-			this.exePath02.Name = "exePath02";
-			this.exePath02.Size = new System.Drawing.Size(876, 19);
-			this.exePath02.TabIndex = 1;
+			this.textExePath02.Location = new System.Drawing.Point(6, 18);
+			this.textExePath02.Name = "textExePath02";
+			this.textExePath02.Size = new System.Drawing.Size(876, 19);
+			this.textExePath02.TabIndex = 1;
 			// 
 			// groupConfig
 			// 
@@ -135,6 +138,16 @@
 			this.groupConfig.TabIndex = 2;
 			this.groupConfig.TabStop = false;
 			this.groupConfig.Text = "設定";
+			// 
+			// checkLogOutput
+			// 
+			this.checkLogOutput.AutoSize = true;
+			this.checkLogOutput.Location = new System.Drawing.Point(231, 18);
+			this.checkLogOutput.Name = "checkLogOutput";
+			this.checkLogOutput.Size = new System.Drawing.Size(66, 16);
+			this.checkLogOutput.TabIndex = 5;
+			this.checkLogOutput.Text = "ログ出力";
+			this.checkLogOutput.UseVisualStyleBackColor = true;
 			// 
 			// textLifetime
 			// 
@@ -226,6 +239,7 @@
 			this.textPlayer01Cerr.Location = new System.Drawing.Point(8, 136);
 			this.textPlayer01Cerr.Multiline = true;
 			this.textPlayer01Cerr.Name = "textPlayer01Cerr";
+			this.textPlayer01Cerr.ReadOnly = true;
 			this.textPlayer01Cerr.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer01Cerr.Size = new System.Drawing.Size(440, 88);
 			this.textPlayer01Cerr.TabIndex = 2;
@@ -235,6 +249,7 @@
 			this.textPlayer01Cout.Location = new System.Drawing.Point(231, 30);
 			this.textPlayer01Cout.Multiline = true;
 			this.textPlayer01Cout.Name = "textPlayer01Cout";
+			this.textPlayer01Cout.ReadOnly = true;
 			this.textPlayer01Cout.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer01Cout.Size = new System.Drawing.Size(217, 88);
 			this.textPlayer01Cout.TabIndex = 1;
@@ -244,6 +259,7 @@
 			this.textPlayer01Cin.Location = new System.Drawing.Point(8, 30);
 			this.textPlayer01Cin.Multiline = true;
 			this.textPlayer01Cin.Name = "textPlayer01Cin";
+			this.textPlayer01Cin.ReadOnly = true;
 			this.textPlayer01Cin.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer01Cin.Size = new System.Drawing.Size(217, 88);
 			this.textPlayer01Cin.TabIndex = 0;
@@ -295,6 +311,7 @@
 			this.textPlayer02Cerr.Location = new System.Drawing.Point(8, 136);
 			this.textPlayer02Cerr.Multiline = true;
 			this.textPlayer02Cerr.Name = "textPlayer02Cerr";
+			this.textPlayer02Cerr.ReadOnly = true;
 			this.textPlayer02Cerr.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer02Cerr.Size = new System.Drawing.Size(440, 88);
 			this.textPlayer02Cerr.TabIndex = 2;
@@ -304,6 +321,7 @@
 			this.textPlayer02Cout.Location = new System.Drawing.Point(231, 30);
 			this.textPlayer02Cout.Multiline = true;
 			this.textPlayer02Cout.Name = "textPlayer02Cout";
+			this.textPlayer02Cout.ReadOnly = true;
 			this.textPlayer02Cout.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer02Cout.Size = new System.Drawing.Size(217, 88);
 			this.textPlayer02Cout.TabIndex = 1;
@@ -313,59 +331,23 @@
 			this.textPlayer02Cin.Location = new System.Drawing.Point(8, 30);
 			this.textPlayer02Cin.Multiline = true;
 			this.textPlayer02Cin.Name = "textPlayer02Cin";
+			this.textPlayer02Cin.ReadOnly = true;
 			this.textPlayer02Cin.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textPlayer02Cin.Size = new System.Drawing.Size(217, 88);
 			this.textPlayer02Cin.TabIndex = 0;
-			// 
-			// checkLogOutput
-			// 
-			this.checkLogOutput.AutoSize = true;
-			this.checkLogOutput.Location = new System.Drawing.Point(231, 18);
-			this.checkLogOutput.Name = "checkLogOutput";
-			this.checkLogOutput.Size = new System.Drawing.Size(66, 16);
-			this.checkLogOutput.TabIndex = 5;
-			this.checkLogOutput.Text = "ログ出力";
-			this.checkLogOutput.UseVisualStyleBackColor = true;
 			// 
 			// groupGameLog
 			// 
 			this.groupGameLog.Controls.Add(this.buttonStop);
 			this.groupGameLog.Controls.Add(this.buttonStart);
 			this.groupGameLog.Controls.Add(this.label9);
-			this.groupGameLog.Controls.Add(this.textBox3);
+			this.groupGameLog.Controls.Add(this.textGameLog);
 			this.groupGameLog.Location = new System.Drawing.Point(12, 203);
 			this.groupGameLog.Name = "groupGameLog";
 			this.groupGameLog.Size = new System.Drawing.Size(926, 129);
 			this.groupGameLog.TabIndex = 5;
 			this.groupGameLog.TabStop = false;
 			this.groupGameLog.Text = "ゲームコントロール";
-			// 
-			// textBox3
-			// 
-			this.textBox3.Location = new System.Drawing.Point(474, 30);
-			this.textBox3.Multiline = true;
-			this.textBox3.Name = "textBox3";
-			this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBox3.Size = new System.Drawing.Size(440, 88);
-			this.textBox3.TabIndex = 0;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(472, 15);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(53, 12);
-			this.label9.TabIndex = 4;
-			this.label9.Text = "ゲームログ";
-			// 
-			// buttonStart
-			// 
-			this.buttonStart.Location = new System.Drawing.Point(8, 18);
-			this.buttonStart.Name = "buttonStart";
-			this.buttonStart.Size = new System.Drawing.Size(75, 23);
-			this.buttonStart.TabIndex = 5;
-			this.buttonStart.Text = "対戦開始";
-			this.buttonStart.UseVisualStyleBackColor = true;
 			// 
 			// buttonStop
 			// 
@@ -376,8 +358,43 @@
 			this.buttonStop.TabIndex = 6;
 			this.buttonStop.Text = "中止";
 			this.buttonStop.UseVisualStyleBackColor = true;
+			this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
 			// 
-			// Form1
+			// buttonStart
+			// 
+			this.buttonStart.Location = new System.Drawing.Point(8, 18);
+			this.buttonStart.Name = "buttonStart";
+			this.buttonStart.Size = new System.Drawing.Size(75, 23);
+			this.buttonStart.TabIndex = 5;
+			this.buttonStart.Text = "対戦開始";
+			this.buttonStart.UseVisualStyleBackColor = true;
+			this.buttonStart.Click += new System.EventHandler(this.buttonStart_ClickAsync);
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(472, 15);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(53, 12);
+			this.label9.TabIndex = 4;
+			this.label9.Text = "ゲームログ";
+			// 
+			// textGameLog
+			// 
+			this.textGameLog.Location = new System.Drawing.Point(474, 30);
+			this.textGameLog.Multiline = true;
+			this.textGameLog.Name = "textGameLog";
+			this.textGameLog.ReadOnly = true;
+			this.textGameLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.textGameLog.Size = new System.Drawing.Size(440, 88);
+			this.textGameLog.TabIndex = 0;
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.FileName = "openFileDialog1";
+			this.openFileDialog.Title = "ファイルを選択する";
+			// 
+			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -389,8 +406,10 @@
 			this.Controls.Add(this.groupPlayer02);
 			this.Controls.Add(this.groupPlayer01);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Name = "Form1";
+			this.Name = "MainForm";
 			this.Text = "Othell";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.groupPlayer01.ResumeLayout(false);
 			this.groupPlayer01.PerformLayout();
 			this.groupPlayer02.ResumeLayout(false);
@@ -412,10 +431,10 @@
 
 		private System.Windows.Forms.GroupBox groupPlayer01;
 		private System.Windows.Forms.Button buttonExePath01;
-		private System.Windows.Forms.TextBox exePath01;
+		private System.Windows.Forms.TextBox textExePath01;
 		private System.Windows.Forms.GroupBox groupPlayer02;
 		private System.Windows.Forms.Button buttonExePath02;
-		private System.Windows.Forms.TextBox exePath02;
+		private System.Windows.Forms.TextBox textExePath02;
 		private System.Windows.Forms.GroupBox groupConfig;
 		private System.Windows.Forms.TextBox textLifetime;
 		private System.Windows.Forms.Label label2;
@@ -437,10 +456,11 @@
 		private System.Windows.Forms.TextBox textPlayer02Cout;
 		private System.Windows.Forms.TextBox textPlayer02Cin;
 		private System.Windows.Forms.GroupBox groupGameLog;
-		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.TextBox textGameLog;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Button buttonStop;
 		private System.Windows.Forms.Button buttonStart;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }
 
