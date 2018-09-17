@@ -56,6 +56,9 @@ namespace Othello
 			player01.name = await ReadlineAsync(player01);
 			player02.name = await ReadlineAsync(player02);
 
+			replayLog += player01.name + Environment.NewLine;
+			replayLog += player02.name + Environment.NewLine;
+
 			check &= CheckPlayerName();
 
 			char result = Config.Draw;
@@ -91,8 +94,10 @@ namespace Othello
 					{
 						player01Timer.Start();
 
+						long timer = lifeTime - player01Timer.ElapsedMilliseconds;
+
 						//入力
-						Writeline(player01, player01Timer.ElapsedMilliseconds.ToString());
+						Writeline(player01, timer.ToString());
 						foreach (var str in nextTable)
 						{
 							Writeline(player01, str);
@@ -103,6 +108,8 @@ namespace Othello
 						command = await ReadlineAsync(player01);
 
 						player01Timer.Stop();
+
+						replayLog += command + " " + timer + Environment.NewLine;
 
 						if (player01Timer.ElapsedMilliseconds > lifeTime)
 						{
@@ -115,8 +122,10 @@ namespace Othello
 					{
 						player02Timer.Start();
 
+						long timer = lifeTime - player02Timer.ElapsedMilliseconds;
+
 						//入力
-						Writeline(player02, player02Timer.ElapsedMilliseconds.ToString());
+						Writeline(player02, timer.ToString());
 						foreach (var str in nextTable)
 						{
 							Writeline(player02, str);
@@ -127,6 +136,8 @@ namespace Othello
 						command = await ReadlineAsync(player02);
 
 						player02Timer.Stop();
+
+						replayLog += command + " " + timer + Environment.NewLine;
 
 						if (player02Timer.ElapsedMilliseconds > lifeTime)
 						{

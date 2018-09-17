@@ -90,6 +90,8 @@ namespace Othello
 
 				for (int i = 0; i < battleCount; i++)
 				{
+					if (token.IsCancellationRequested) break;
+
 					PlayerProcess player01 = new PlayerProcess();
 					PlayerProcess player02 = new PlayerProcess();
 					//偶奇回数目の対戦で白黒を入れ替える
@@ -123,7 +125,6 @@ namespace Othello
 					char result = Config.Draw;
 					try
 					{
-						if (token.IsCancellationRequested) break;
 						result = await engine.GameTaskAsync(token);
 						if (token.IsCancellationRequested) break;
 					}
