@@ -1,65 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Othello
 {
 	class GameEngine
 	{
 
-		private readonly string exePath1;
-		private readonly string exePath2;
-
-		private readonly int lifeTime;
-		private readonly bool log;
-
-		public Form mainForm;
-		public TextBox player01Cin;
-		public TextBox player01Cout;
-		public TextBox player01Cerr;
-		public TextBox player02Cin;
-		public TextBox player02Cout;
-		public TextBox player02Cerr;
-
 		private char[,] table = new char[Config.Size, Config.Size];
+		private bool[,] blackPutTable = new bool[Config.Size, Config.Size];
+		private bool[,] whitePutTable = new bool[Config.Size, Config.Size];
 
-		private ProcessStartInfo player01StartInfo;
-		private ProcessStartInfo player02StartInfo;
-		private Process player01;
-		private Process player02;
+		private char nextColor = Config.Black;
+		private char winner;
+		private string result;
 
-		public GameEngine(string exePath1, string exePath2, int lifeTime, bool log)
-		{
-			this.exePath1 = exePath1;
-			this.exePath2 = exePath2;
-
-			this.lifeTime = lifeTime;
-			this.log = log;
-		}
-
-		public async Task<string> GameTaskAsync(CancellationToken token)
-		{
-
-			Init();
-
-			while (true)
-			{
-				break;
-			}
-
-			Close();
-
-			await Task.Delay(1000);
-
-			return "result";
-		}
-
-		private void Init()
+		public GameEngine()
 		{
 			for (int y = 0; y < Config.Size; y++)
 			{
@@ -68,82 +27,273 @@ namespace Othello
 					table[y, x] = Cell.Empty;
 				}
 			}
+
 			table[Config.Size / 2 - 0, Config.Size / 2 - 0] = Cell.White;
 			table[Config.Size / 2 - 1, Config.Size / 2 - 0] = Cell.Black;
 			table[Config.Size / 2 - 0, Config.Size / 2 - 1] = Cell.Black;
 			table[Config.Size / 2 - 1, Config.Size / 2 - 1] = Cell.White;
 
-			string[] player01String = new string[3];
-			string[] player02String = new string[3];
-
-			player01String[0] = Config.Size.ToString();
-			player01String[1] = (lifeTime * 100).ToString();
-			player02String[0] = player01String[0];
-			player02String[1] = player01String[1];
-
-			player01String[2] = "b";
-			player02String[2] = "w";
-
-			player01StartInfo = new ProcessStartInfo(exePath1);
-			player02StartInfo = new ProcessStartInfo(exePath2);
-
-			player01StartInfo.UseShellExecute = false;
-			player01StartInfo.RedirectStandardInput = true;
-			player01StartInfo.RedirectStandardOutput = true;
-			player01StartInfo.RedirectStandardError = true;
-
-			player02StartInfo.UseShellExecute = false;
-			player02StartInfo.RedirectStandardInput = true;
-			player02StartInfo.RedirectStandardOutput = true;
-			player02StartInfo.RedirectStandardError = true;
-
-			player01 = Process.Start(player01StartInfo);
-			player02 = Process.Start(player02StartInfo);
-
-			Writeline(player01, player01Cin, player01String[0]);
-			Writeline(player01, player01Cin, player01String[1]);
-			Writeline(player01, player01Cin, player01String[2]);
-
-			Writeline(player02, player02Cin, player02String[0]);
-			Writeline(player02, player02Cin, player02String[1]);
-			Writeline(player02, player02Cin, player02String[2]);
-
-
+			CreatePutTable(blackPutTable, Config.Black);
 		}
 
-		private void Close()
+		public bool CheckPosition(string command, char color)
 		{
-			player01.WaitForExit();
-			player02.WaitForExit();
-			player01.Dispose();
-			player02.Dispose();
-		}
+			string[] coms = command.Split(' ');
 
-		private void Writeline(Process player, TextBox textbox, string str)
-		{
-			player.StandardInput.WriteLine(str);
-			LogWriteLine(textbox, str);
-		}
+			Point point = new Point();
 
-		private void LogWriteLine(TextBox textbox, string str)
-		{
-			mainForm.Invoke(new Action<TextBox, string>((control, text) =>
+			if (coms.Length == 2)
 			{
-				control.AppendText(text + Environment.NewLine);
-				control.Refresh();
-			}), new object[] { textbox, str });
+				if (int.TryParse(coms[0], out int x))
+				{
+					if (int.TryParse(coms[1], out int y))
+					{
+						point.X = x;
+						point.Y = y;
+						return CheckPosition(point, color);
+					}
+				}
+			}
+
+			return false;
 		}
-
-
-		static class Config
+		private bool CheckPosition(Point pos, char color)
 		{
-			public static readonly int Size = 8;
+			if (color == Config.Black)
+			{
+				return blackPutTable[pos.Y, pos.X];
+			}
+			else if (color == Config.White)
+			{
+				return whitePutTable[pos.Y, pos.X];
+			}
+
+			return false;
 		}
+
+		public char NextColor
+		{
+			get { return nextColor; }
+		}
+		public string[] NextTable
+		{
+			get
+			{
+				string[] lines = new string[Config.Size];
+
+				for (int y = 0; y < Config.Size; y++)
+				{
+					lines[y] = string.Empty;
+					for (int x = 0; x < Config.Size; x++)
+					{
+						lines[y] += table[y, x];
+					}
+				}
+
+				return lines;
+			}
+		}
+
+		public string Result
+		{
+			get { return result; }
+		}
+		public char Winner
+		{
+			get { return winner; }
+		}
+
+		public void Put(string command, char color)
+		{
+			string[] coms = command.Split(' ');
+
+			Point point = new Point();
+
+			if (coms.Length == 2)
+			{
+				if (int.TryParse(coms[0], out int x))
+				{
+					if (int.TryParse(coms[1], out int y))
+					{
+						point.X = x;
+						point.Y = y;
+						Put(point, color);
+					}
+				}
+			}
+		}
+		private void Put(Point pos, char color)
+		{
+
+			Reverse(pos, color);
+			Update();
+
+		}
+		
+		private void Update()
+		{
+			nextColor = ReverseColor(nextColor);
+
+			bool pass = false;
+
+			if (nextColor == Config.Black)
+			{
+				pass = !CreatePutTable(blackPutTable, nextColor);
+			}
+			else if (nextColor == Config.White)
+			{
+				pass = !CreatePutTable(whitePutTable, nextColor);
+			}
+			if (!pass) return;
+
+			nextColor = ReverseColor(nextColor);
+
+			pass = false;
+			if (nextColor == Config.Black)
+			{
+				pass = !CreatePutTable(blackPutTable, nextColor);
+			}
+			else if (nextColor == Config.White)
+			{
+				pass = !CreatePutTable(whitePutTable, nextColor);
+			}
+			if (!pass) return;
+
+			int blackCount = 0;
+			int whiteCount = 0;
+			for (int y = 0; y < Config.Size; y++)
+			{
+				for (int x = 0; x < Config.Size; x++)
+				{
+					if (table[y, x] == Config.Black) blackCount++;
+					else if (table[y, x] == Config.White) whiteCount++;
+				}
+			}
+
+			if (blackCount > whiteCount) winner = Config.Black;
+			else if (blackCount < whiteCount) winner = Config.White;
+			else winner = Config.Draw;
+
+			result = blackCount.ToString() + " " + whiteCount.ToString();
+
+		}
+
+		private void Reverse(Point pos, char color)
+		{
+			int[] dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
+			int[] dy = new int[8] { -1, -1, -1, 0, 0, 1, 1, 1 };
+
+			char rColor = ReverseColor(color);
+
+			for (int d = 0; d < 8; d++)
+			{
+				int x = pos.X + dx[d];
+				int y = pos.Y + dy[d];
+
+				if (Inside(x, y))
+				{
+					if (table[y, x] == rColor)
+					{
+						x += dx[d];
+						y += dy[d];
+						for (int i = 1; i < Config.Size; i++)
+						{
+							if (Inside(x, y))
+							{
+								if (table[y, x] == Cell.Empty) break;
+								if (table[y, x] == color)
+								{
+									int rx = pos.X;
+									int ry = pos.Y;
+									for (int j = 0; j < i; j++)
+									{
+										table[ry, rx] = color;
+										rx += dx[d];
+										ry += dy[d];
+									}
+								}
+							}
+							else
+							{
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		private bool IsReverse(Point pos, char color)
+		{
+			int[] dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
+			int[] dy = new int[8] { -1, -1, -1, 0, 0, 1, 1, 1 };
+
+			char rColor = ReverseColor(color);
+
+			for (int d = 0; d < 8; d++)
+			{
+				int x = pos.X + dx[d];
+				int y = pos.Y + dy[d];
+
+				if (Inside(x, y))
+				{
+					if (table[y, x] == rColor)
+					{
+						x += dx[d];
+						y += dy[d];
+						for (int i = 1; i < Config.Size; i++)
+						{
+							if (Inside(x, y))
+							{
+								if (table[y, x] == Cell.Empty) break;
+								if (table[y, x] == color) return true;
+							}
+							else
+							{
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			return false;
+		}
+
+		private bool CreatePutTable(bool[,] table, char color)
+		{
+			bool isPut = false;
+			for (int y = 0; y < Config.Size; y++)
+			{
+				for (int x = 0; x < Config.Size; x++)
+				{
+					blackPutTable[y, x] = IsReverse(new Point(x, y), color);
+					isPut |= blackPutTable[y, x];
+				}
+			}
+
+			return isPut;
+		}
+
+		private bool Inside(int x, int y)
+		{
+			return (Inside(x) && Inside(y));
+		}
+		private bool Inside(int x)
+		{
+			return (0 <= x && x < Config.Size);
+		}
+		private char ReverseColor(char color)
+		{
+			if (color == Config.Black) return Config.White;
+			if (color == Config.White) return Config.Black;
+			return Config.Draw;
+		}
+
 		static class Cell
 		{
 			public static char Empty = '-';
-			public static char Black = 'b';
-			public static char White = 'w';
+			public static char Black = Config.Black;
+			public static char White = Config.White;
 		}
 
 	}

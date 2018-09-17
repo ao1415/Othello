@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -50,6 +52,14 @@ namespace Othello
 			textLifetime.Enabled = false;
 			checkLogOutput.Enabled = false;
 
+			textPlayer01Cin.Text = string.Empty;
+			textPlayer01Cout.Text = string.Empty;
+			textPlayer01Cerr.Text = string.Empty;
+
+			textPlayer02Cin.Text = string.Empty;
+			textPlayer02Cout.Text = string.Empty;
+			textPlayer02Cerr.Text = string.Empty;
+
 			//非同期で起動する
 
 			decimal battleCount = numericBattleCount.Value;
@@ -70,35 +80,35 @@ namespace Othello
 
 				for (int i = 0; i < battleCount; i++)
 				{
-
-					GameEngine engine;
-
+					PlayerProcess player01 = new PlayerProcess();
+					PlayerProcess player02 = new PlayerProcess();
 					//偶奇回数目の対戦で白黒を入れ替える
 					if (i % 2 == 0)
 					{
-						engine = new GameEngine(exePath01, exePath02, lifeTime, log);
+						player01.startInfo = new ProcessStartInfo(exePath01);
+						player01.cin = textPlayer01Cin;
+						player01.cout = textPlayer01Cout;
+						player01.cerr = textPlayer01Cerr;
 
-						engine.mainForm = this;
-						engine.player01Cin = textPlayer01Cin;
-						engine.player01Cout = textPlayer01Cout;
-						engine.player01Cerr = textPlayer01Cerr;
-						engine.player02Cin = textPlayer02Cin;
-						engine.player02Cout = textPlayer02Cout;
-						engine.player02Cerr = textPlayer02Cerr;
+						player02.startInfo = new ProcessStartInfo(exePath02);
+						player02.cin = textPlayer02Cin;
+						player02.cout = textPlayer02Cout;
+						player02.cerr = textPlayer02Cerr;
 					}
 					else
 					{
-						engine = new GameEngine(exePath02, exePath01, lifeTime, log);
+						player02.startInfo = new ProcessStartInfo(exePath01);
+						player02.cin = textPlayer01Cin;
+						player02.cout = textPlayer01Cout;
+						player02.cerr = textPlayer01Cerr;
 
-						engine.mainForm = this;
-						engine.player02Cin = textPlayer01Cin;
-						engine.player02Cout = textPlayer01Cout;
-						engine.player02Cerr = textPlayer01Cerr;
-						engine.player01Cin = textPlayer02Cin;
-						engine.player01Cout = textPlayer02Cout;
-						engine.player01Cerr = textPlayer02Cerr;
+						player01.startInfo = new ProcessStartInfo(exePath02);
+						player01.cin = textPlayer02Cin;
+						player01.cout = textPlayer02Cout;
+						player01.cerr = textPlayer02Cerr;
 					}
 
+					Engine engine = new Engine(player01, player02, lifeTime, log, this);
 
 					string result = await engine.GameTaskAsync(token);
 
@@ -138,7 +148,6 @@ namespace Othello
 			textLifetime.Enabled = true;
 			checkLogOutput.Enabled = true;
 
-
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -150,6 +159,8 @@ namespace Othello
 			textLifetime.Text = Properties.Settings.Default.Lifetime.ToString();
 
 			checkLogOutput.Checked = Properties.Settings.Default.Log;
+
+			Directory.CreateDirectory(Config.LogDirectory);
 
 		}
 

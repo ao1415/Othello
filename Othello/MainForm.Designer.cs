@@ -456,11 +456,11 @@
 		private System.Windows.Forms.TextBox textPlayer02Cout;
 		private System.Windows.Forms.TextBox textPlayer02Cin;
 		private System.Windows.Forms.GroupBox groupGameLog;
-		private System.Windows.Forms.TextBox textGameLog;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Button buttonStop;
 		private System.Windows.Forms.Button buttonStart;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		public System.Windows.Forms.TextBox textGameLog;
 	}
 }
 
