@@ -236,6 +236,7 @@
 			// 
 			// textPlayer01Cerr
 			// 
+			this.textPlayer01Cerr.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer01Cerr.Location = new System.Drawing.Point(8, 136);
 			this.textPlayer01Cerr.Multiline = true;
 			this.textPlayer01Cerr.Name = "textPlayer01Cerr";
@@ -246,6 +247,7 @@
 			// 
 			// textPlayer01Cout
 			// 
+			this.textPlayer01Cout.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer01Cout.Location = new System.Drawing.Point(231, 30);
 			this.textPlayer01Cout.Multiline = true;
 			this.textPlayer01Cout.Name = "textPlayer01Cout";
@@ -256,6 +258,7 @@
 			// 
 			// textPlayer01Cin
 			// 
+			this.textPlayer01Cin.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer01Cin.Location = new System.Drawing.Point(8, 30);
 			this.textPlayer01Cin.Multiline = true;
 			this.textPlayer01Cin.Name = "textPlayer01Cin";
@@ -308,6 +311,7 @@
 			// 
 			// textPlayer02Cerr
 			// 
+			this.textPlayer02Cerr.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer02Cerr.Location = new System.Drawing.Point(8, 136);
 			this.textPlayer02Cerr.Multiline = true;
 			this.textPlayer02Cerr.Name = "textPlayer02Cerr";
@@ -318,6 +322,7 @@
 			// 
 			// textPlayer02Cout
 			// 
+			this.textPlayer02Cout.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer02Cout.Location = new System.Drawing.Point(231, 30);
 			this.textPlayer02Cout.Multiline = true;
 			this.textPlayer02Cout.Name = "textPlayer02Cout";
@@ -328,6 +333,7 @@
 			// 
 			// textPlayer02Cin
 			// 
+			this.textPlayer02Cin.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
 			this.textPlayer02Cin.Location = new System.Drawing.Point(8, 30);
 			this.textPlayer02Cin.Multiline = true;
 			this.textPlayer02Cin.Name = "textPlayer02Cin";
@@ -381,6 +387,7 @@
 			// 
 			// textGameLog
 			// 
+			this.textGameLog.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textGameLog.Location = new System.Drawing.Point(474, 30);
 			this.textGameLog.Multiline = true;
 			this.textGameLog.Name = "textGameLog";

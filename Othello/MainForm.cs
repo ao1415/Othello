@@ -71,11 +71,21 @@ namespace Othello
 				string exePath01 = textExePath01.Text;
 				string exePath02 = textExePath02.Text;
 
+				lifeTime *= 1000;
 				bool log = checkLogOutput.Checked;
+
+				int player01Win = 0;
+				int player02Win = 0;
 
 				textGameLog.Text += "ゲーム開始" + Environment.NewLine;
 
-				if (_tokenSource == null) _tokenSource = new CancellationTokenSource();
+				if (_tokenSource != null)
+				{
+					_tokenSource.Dispose();
+					_tokenSource = null;
+				}
+				if (_tokenSource == null)
+					_tokenSource = new CancellationTokenSource();
 				var token = _tokenSource.Token;
 
 				for (int i = 0; i < battleCount; i++)
@@ -110,9 +120,34 @@ namespace Othello
 
 					Engine engine = new Engine(player01, player02, lifeTime, log, this);
 
-					string result = await engine.GameTaskAsync(token);
+					char result = Config.Draw;
+					try
+					{
+						if (token.IsCancellationRequested) break;
+						result = await engine.GameTaskAsync(token);
+						if (token.IsCancellationRequested) break;
+					}
+					finally
+					{
+						engine.Close();
+					}
 
-					textGameLog.Text += result + Environment.NewLine;
+					if (result == Config.Black)
+					{
+						if (i % 2 == 0)
+							player01Win++;
+						else
+							player02Win++;
+					}
+					else if (result == Config.White)
+					{
+						if (i % 2 == 0)
+							player02Win++;
+						else
+							player01Win++;
+					}
+
+					textGameLog.AppendText(player01Win.ToString() + "-" + player02Win.ToString() + Environment.NewLine);
 				}
 			}
 			else
@@ -136,18 +171,8 @@ namespace Othello
 
 		private void buttonStop_Click(object sender, EventArgs e)
 		{
-			buttonStart.Enabled = true;
-			buttonStop.Enabled = false;
-
-			textExePath01.Enabled = true;
-			textExePath02.Enabled = true;
-			buttonExePath01.Enabled = true;
-			buttonExePath02.Enabled = true;
-
-			numericBattleCount.Enabled = true;
-			textLifetime.Enabled = true;
-			checkLogOutput.Enabled = true;
-
+			if (_tokenSource != null)
+				_tokenSource.Cancel();
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)

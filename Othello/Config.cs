@@ -18,5 +18,6 @@ namespace Othello
 		public static readonly char White = 'w';
 		public static readonly char Draw = 'd';
 
+		public static readonly string End = "END";
 	}
 }

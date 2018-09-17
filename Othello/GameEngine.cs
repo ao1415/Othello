@@ -159,6 +159,8 @@ namespace Othello
 			}
 			if (!pass) return;
 
+			nextColor = Config.Draw;
+
 			int blackCount = 0;
 			int whiteCount = 0;
 			for (int y = 0; y < Config.Size; y++)
@@ -194,10 +196,10 @@ namespace Othello
 				{
 					if (table[y, x] == rColor)
 					{
-						x += dx[d];
-						y += dy[d];
 						for (int i = 1; i < Config.Size; i++)
 						{
+							x += dx[d];
+							y += dy[d];
 							if (Inside(x, y))
 							{
 								if (table[y, x] == Cell.Empty) break;
@@ -205,12 +207,13 @@ namespace Othello
 								{
 									int rx = pos.X;
 									int ry = pos.Y;
-									for (int j = 0; j < i; j++)
+									for (int j = 0; j <= i; j++)
 									{
 										table[ry, rx] = color;
 										rx += dx[d];
 										ry += dy[d];
 									}
+									break;
 								}
 							}
 							else
@@ -229,6 +232,8 @@ namespace Othello
 
 			char rColor = ReverseColor(color);
 
+			if (table[pos.Y, pos.X] != Cell.Empty) return false;
+
 			for (int d = 0; d < 8; d++)
 			{
 				int x = pos.X + dx[d];
@@ -238,10 +243,10 @@ namespace Othello
 				{
 					if (table[y, x] == rColor)
 					{
-						x += dx[d];
-						y += dy[d];
 						for (int i = 1; i < Config.Size; i++)
 						{
+							x += dx[d];
+							y += dy[d];
 							if (Inside(x, y))
 							{
 								if (table[y, x] == Cell.Empty) break;
@@ -266,8 +271,8 @@ namespace Othello
 			{
 				for (int x = 0; x < Config.Size; x++)
 				{
-					blackPutTable[y, x] = IsReverse(new Point(x, y), color);
-					isPut |= blackPutTable[y, x];
+					table[y, x] = IsReverse(new Point(x, y), color);
+					isPut |= table[y, x];
 				}
 			}
 
