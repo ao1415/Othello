@@ -93,6 +93,10 @@ namespace Othello
 				return lines;
 			}
 		}
+		public char[,] NextTableChar
+		{
+			get { return table; }
+		}
 
 		public string Result
 		{

@@ -463,7 +463,7 @@
 			this.listReplay.TabIndex = 0;
 			this.listReplay.UseCompatibleStateImageBehavior = false;
 			this.listReplay.View = System.Windows.Forms.View.Details;
-			this.listReplay.SelectedIndexChanged += new System.EventHandler(this.listReplay_SelectedIndexChanged);
+			this.listReplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listReplay_MouseDoubleClick);
 			// 
 			// columnHeader1
 			// 

@@ -82,5 +82,17 @@ namespace Othello.Properties {
                 this["Log"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Speed {
+            get {
+                return ((int)(this["Speed"]));
+            }
+            set {
+                this["Speed"] = value;
+            }
+        }
     }
 }

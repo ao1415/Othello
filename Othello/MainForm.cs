@@ -235,12 +235,12 @@ namespace Othello
 
 		private void buttonReplay_Click(object sender, EventArgs e)
 		{
-
+			ShowReplay();
 		}
 
-		private void listReplay_SelectedIndexChanged(object sender, EventArgs e)
+		private void listReplay_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-
+			ShowReplay();
 		}
 
 		private void ReplayFileUpdate()
@@ -255,6 +255,15 @@ namespace Othello
 				listReplay.Items.Add(Path.GetFileName(item));
 			}
 
+		}
+
+		private void ShowReplay()
+		{
+			string filename = Config.ReplayDirectory + "/" + listReplay.SelectedItems[0].Text;
+
+			ReplayForm replayForm = new ReplayForm(filename);
+
+			replayForm.ShowDialog(this);
 		}
 
 	}

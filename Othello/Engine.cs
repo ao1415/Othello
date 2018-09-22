@@ -58,6 +58,7 @@ namespace Othello
 
 			replayLog += player01.name + Environment.NewLine;
 			replayLog += player02.name + Environment.NewLine;
+			replayLog += lifeTime + Environment.NewLine;
 
 			check &= CheckPlayerName();
 
@@ -109,7 +110,7 @@ namespace Othello
 
 						player01Timer.Stop();
 
-						replayLog += command + " " + timer + Environment.NewLine;
+						replayLog += command + " " + (lifeTime - player01Timer.ElapsedMilliseconds).ToString() + Environment.NewLine;
 
 						if (player01Timer.ElapsedMilliseconds > lifeTime)
 						{
@@ -137,7 +138,7 @@ namespace Othello
 
 						player02Timer.Stop();
 
-						replayLog += command + " " + timer + Environment.NewLine;
+						replayLog += command + " " + (lifeTime - player02Timer.ElapsedMilliseconds).ToString() + Environment.NewLine;
 
 						if (player02Timer.ElapsedMilliseconds > lifeTime)
 						{
