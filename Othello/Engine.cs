@@ -172,7 +172,7 @@ namespace Othello
 
 				}
 
-				FileWrite();
+				FileWrite(result);
 			}
 
 			return result;
@@ -250,19 +250,31 @@ namespace Othello
 			}
 		}
 
-		private void FileWrite()
+		private void FileWrite(char result)
 		{
 			DateTime dt = DateTime.Now;
 			string fileDate = dt.ToString("yyyyMMddHHmmss");
 
-			string directoryPath = Config.LogDirectory + "/" + fileDate;
-			Directory.CreateDirectory(directoryPath);
+			string replayFileName = Config.ReplayDirectory + "/" + "replay_" + fileDate + "_";
 
-			string replayFileName = directoryPath + "/" + "replay_" + player01.name + "_" + player02.name + Config.FileExtension;
+			replayFileName += player01.name;
+			if (result == Config.Black) replayFileName += "-win_";
+			else if (result == Config.White) replayFileName += "-loss_";
+			else replayFileName += "-draw_";
+
+			replayFileName += player02.name;
+			if (result == Config.White) replayFileName += "-win";
+			else if (result == Config.Black) replayFileName += "-loss";
+			else replayFileName += "-draw";
+			replayFileName += Config.FileExtension;
+
 			File.WriteAllText(replayFileName, replayLog);
 
 			if (log)
 			{
+				string directoryPath = Config.IoDirectory + "/" + fileDate;
+				Directory.CreateDirectory(directoryPath);
+
 				string cinFileName = directoryPath + "/";
 				File.WriteAllText(cinFileName + "1_in_" + player01.name + Config.FileExtension, GetLogText(player01.cin));
 				File.WriteAllText(cinFileName + "2_in_" + player02.name + Config.FileExtension, GetLogText(player02.cin));

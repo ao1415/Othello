@@ -60,6 +60,13 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.textGameLog = new System.Windows.Forms.TextBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.tabControl = new System.Windows.Forms.TabControl();
+			this.tabBattle = new System.Windows.Forms.TabPage();
+			this.tabReplay = new System.Windows.Forms.TabPage();
+			this.listReplay = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.buttonUpdate = new System.Windows.Forms.Button();
+			this.buttonReplay = new System.Windows.Forms.Button();
 			this.groupPlayer01.SuspendLayout();
 			this.groupPlayer02.SuspendLayout();
 			this.groupConfig.SuspendLayout();
@@ -67,13 +74,16 @@
 			this.groupPlayer01Log.SuspendLayout();
 			this.groupPlayer02Log.SuspendLayout();
 			this.groupGameLog.SuspendLayout();
+			this.tabControl.SuspendLayout();
+			this.tabBattle.SuspendLayout();
+			this.tabReplay.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupPlayer01
 			// 
 			this.groupPlayer01.Controls.Add(this.buttonExePath01);
 			this.groupPlayer01.Controls.Add(this.textExePath01);
-			this.groupPlayer01.Location = new System.Drawing.Point(12, 12);
+			this.groupPlayer01.Location = new System.Drawing.Point(6, 6);
 			this.groupPlayer01.Name = "groupPlayer01";
 			this.groupPlayer01.Size = new System.Drawing.Size(926, 49);
 			this.groupPlayer01.TabIndex = 0;
@@ -101,7 +111,7 @@
 			// 
 			this.groupPlayer02.Controls.Add(this.buttonExePath02);
 			this.groupPlayer02.Controls.Add(this.textExePath02);
-			this.groupPlayer02.Location = new System.Drawing.Point(12, 67);
+			this.groupPlayer02.Location = new System.Drawing.Point(6, 61);
 			this.groupPlayer02.Name = "groupPlayer02";
 			this.groupPlayer02.Size = new System.Drawing.Size(926, 49);
 			this.groupPlayer02.TabIndex = 1;
@@ -132,7 +142,7 @@
 			this.groupConfig.Controls.Add(this.label2);
 			this.groupConfig.Controls.Add(this.numericBattleCount);
 			this.groupConfig.Controls.Add(this.label1);
-			this.groupConfig.Location = new System.Drawing.Point(12, 122);
+			this.groupConfig.Location = new System.Drawing.Point(6, 116);
 			this.groupConfig.Name = "groupConfig";
 			this.groupConfig.Size = new System.Drawing.Size(926, 75);
 			this.groupConfig.TabIndex = 2;
@@ -200,7 +210,7 @@
 			this.groupPlayer01Log.Controls.Add(this.textPlayer01Cerr);
 			this.groupPlayer01Log.Controls.Add(this.textPlayer01Cout);
 			this.groupPlayer01Log.Controls.Add(this.textPlayer01Cin);
-			this.groupPlayer01Log.Location = new System.Drawing.Point(12, 338);
+			this.groupPlayer01Log.Location = new System.Drawing.Point(6, 332);
 			this.groupPlayer01Log.Name = "groupPlayer01Log";
 			this.groupPlayer01Log.Size = new System.Drawing.Size(460, 234);
 			this.groupPlayer01Log.TabIndex = 3;
@@ -275,7 +285,7 @@
 			this.groupPlayer02Log.Controls.Add(this.textPlayer02Cerr);
 			this.groupPlayer02Log.Controls.Add(this.textPlayer02Cout);
 			this.groupPlayer02Log.Controls.Add(this.textPlayer02Cin);
-			this.groupPlayer02Log.Location = new System.Drawing.Point(478, 338);
+			this.groupPlayer02Log.Location = new System.Drawing.Point(492, 332);
 			this.groupPlayer02Log.Name = "groupPlayer02Log";
 			this.groupPlayer02Log.Size = new System.Drawing.Size(460, 234);
 			this.groupPlayer02Log.TabIndex = 4;
@@ -348,7 +358,7 @@
 			this.groupGameLog.Controls.Add(this.buttonStart);
 			this.groupGameLog.Controls.Add(this.label9);
 			this.groupGameLog.Controls.Add(this.textGameLog);
-			this.groupGameLog.Location = new System.Drawing.Point(12, 203);
+			this.groupGameLog.Location = new System.Drawing.Point(6, 197);
 			this.groupGameLog.Name = "groupGameLog";
 			this.groupGameLog.Size = new System.Drawing.Size(926, 129);
 			this.groupGameLog.TabIndex = 5;
@@ -401,17 +411,92 @@
 			this.openFileDialog.FileName = "openFileDialog1";
 			this.openFileDialog.Title = "ファイルを選択する";
 			// 
+			// tabControl
+			// 
+			this.tabControl.Controls.Add(this.tabBattle);
+			this.tabControl.Controls.Add(this.tabReplay);
+			this.tabControl.Location = new System.Drawing.Point(12, 12);
+			this.tabControl.Name = "tabControl";
+			this.tabControl.SelectedIndex = 0;
+			this.tabControl.Size = new System.Drawing.Size(968, 599);
+			this.tabControl.TabIndex = 6;
+			// 
+			// tabBattle
+			// 
+			this.tabBattle.Controls.Add(this.groupPlayer01);
+			this.tabBattle.Controls.Add(this.groupPlayer02Log);
+			this.tabBattle.Controls.Add(this.groupGameLog);
+			this.tabBattle.Controls.Add(this.groupPlayer01Log);
+			this.tabBattle.Controls.Add(this.groupPlayer02);
+			this.tabBattle.Controls.Add(this.groupConfig);
+			this.tabBattle.Location = new System.Drawing.Point(4, 22);
+			this.tabBattle.Name = "tabBattle";
+			this.tabBattle.Padding = new System.Windows.Forms.Padding(3);
+			this.tabBattle.Size = new System.Drawing.Size(960, 573);
+			this.tabBattle.TabIndex = 0;
+			this.tabBattle.Text = "対戦";
+			this.tabBattle.UseVisualStyleBackColor = true;
+			// 
+			// tabReplay
+			// 
+			this.tabReplay.Controls.Add(this.buttonReplay);
+			this.tabReplay.Controls.Add(this.buttonUpdate);
+			this.tabReplay.Controls.Add(this.listReplay);
+			this.tabReplay.Location = new System.Drawing.Point(4, 22);
+			this.tabReplay.Name = "tabReplay";
+			this.tabReplay.Padding = new System.Windows.Forms.Padding(3);
+			this.tabReplay.Size = new System.Drawing.Size(960, 573);
+			this.tabReplay.TabIndex = 1;
+			this.tabReplay.Text = "対戦履歴";
+			this.tabReplay.UseVisualStyleBackColor = true;
+			// 
+			// listReplay
+			// 
+			this.listReplay.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+			this.listReplay.FullRowSelect = true;
+			this.listReplay.GridLines = true;
+			this.listReplay.Location = new System.Drawing.Point(6, 6);
+			this.listReplay.MultiSelect = false;
+			this.listReplay.Name = "listReplay";
+			this.listReplay.Size = new System.Drawing.Size(948, 523);
+			this.listReplay.TabIndex = 0;
+			this.listReplay.UseCompatibleStateImageBehavior = false;
+			this.listReplay.View = System.Windows.Forms.View.Details;
+			this.listReplay.SelectedIndexChanged += new System.EventHandler(this.listReplay_SelectedIndexChanged);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Tag = "";
+			this.columnHeader1.Text = "ファイル名";
+			this.columnHeader1.Width = 948;
+			// 
+			// buttonUpdate
+			// 
+			this.buttonUpdate.Location = new System.Drawing.Point(6, 544);
+			this.buttonUpdate.Name = "buttonUpdate";
+			this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
+			this.buttonUpdate.TabIndex = 1;
+			this.buttonUpdate.Text = "更新";
+			this.buttonUpdate.UseVisualStyleBackColor = true;
+			this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+			// 
+			// buttonReplay
+			// 
+			this.buttonReplay.Location = new System.Drawing.Point(879, 544);
+			this.buttonReplay.Name = "buttonReplay";
+			this.buttonReplay.Size = new System.Drawing.Size(75, 23);
+			this.buttonReplay.TabIndex = 2;
+			this.buttonReplay.Text = "リプレイ";
+			this.buttonReplay.UseVisualStyleBackColor = true;
+			this.buttonReplay.Click += new System.EventHandler(this.buttonReplay_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(946, 583);
-			this.Controls.Add(this.groupGameLog);
-			this.Controls.Add(this.groupPlayer02Log);
-			this.Controls.Add(this.groupPlayer01Log);
-			this.Controls.Add(this.groupConfig);
-			this.Controls.Add(this.groupPlayer02);
-			this.Controls.Add(this.groupPlayer01);
+			this.ClientSize = new System.Drawing.Size(989, 621);
+			this.Controls.Add(this.tabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "MainForm";
 			this.Text = "Othell";
@@ -430,6 +515,9 @@
 			this.groupPlayer02Log.PerformLayout();
 			this.groupGameLog.ResumeLayout(false);
 			this.groupGameLog.PerformLayout();
+			this.tabControl.ResumeLayout(false);
+			this.tabBattle.ResumeLayout(false);
+			this.tabReplay.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -468,6 +556,13 @@
 		private System.Windows.Forms.Button buttonStart;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		public System.Windows.Forms.TextBox textGameLog;
+		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.TabPage tabBattle;
+		private System.Windows.Forms.TabPage tabReplay;
+		private System.Windows.Forms.ListView listReplay;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
+		private System.Windows.Forms.Button buttonReplay;
+		private System.Windows.Forms.Button buttonUpdate;
 	}
 }
 

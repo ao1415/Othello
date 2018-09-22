@@ -20,6 +20,7 @@ namespace Othello
 		public MainForm()
 		{
 			InitializeComponent();
+			ReplayFileUpdate();
 		}
 
 		private void buttonExePath01_Click(object sender, EventArgs e)
@@ -176,6 +177,8 @@ namespace Othello
 				_tokenSource.Cancel();
 		}
 
+		private FileSystemWatcher fsw = new FileSystemWatcher();
+
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			textExePath01.Text = Properties.Settings.Default.Player01;
@@ -187,6 +190,23 @@ namespace Othello
 			checkLogOutput.Checked = Properties.Settings.Default.Log;
 
 			Directory.CreateDirectory(Config.LogDirectory);
+			Directory.CreateDirectory(Config.ReplayDirectory);
+
+			fsw.Path = Config.ReplayDirectory;
+			fsw.NotifyFilter = NotifyFilters.Attributes
+				| NotifyFilters.LastAccess
+				| NotifyFilters.LastWrite
+				| NotifyFilters.FileName
+				| NotifyFilters.DirectoryName;
+
+			fsw.Filter = "";
+			fsw.SynchronizingObject = this;
+
+			fsw.Created += (object _s, FileSystemEventArgs _e) => { ReplayFileUpdate(); };
+			fsw.Changed += (object _s, FileSystemEventArgs _e) => { ReplayFileUpdate(); };
+			fsw.Deleted += (object _s, FileSystemEventArgs _e) => { ReplayFileUpdate(); };
+			fsw.Renamed += (object _s, RenamedEventArgs _e) => { ReplayFileUpdate(); };
+			fsw.EnableRaisingEvents = true;
 
 		}
 
@@ -205,6 +225,35 @@ namespace Othello
 			Properties.Settings.Default.Log = checkLogOutput.Checked;
 
 			Properties.Settings.Default.Save();
+
+		}
+
+		private void buttonUpdate_Click(object sender, EventArgs e)
+		{
+			ReplayFileUpdate();
+		}
+
+		private void buttonReplay_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void listReplay_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void ReplayFileUpdate()
+		{
+			string[] files = Directory.GetFiles(Config.ReplayDirectory, "replay_*.txt", SearchOption.TopDirectoryOnly);
+
+			//暫定的な処理
+			listReplay.Items.Clear();
+
+			foreach (var item in files)
+			{
+				listReplay.Items.Add(Path.GetFileName(item));
+			}
 
 		}
 

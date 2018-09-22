@@ -10,7 +10,9 @@ namespace Othello
 	{
 		public static readonly int Size = 8;
 
-		public static readonly string LogDirectory = "./logs";
+		public static readonly string LogDirectory = "./othello";
+		public static readonly string IoDirectory = LogDirectory + "/IO";
+		public static readonly string ReplayDirectory = LogDirectory + "/replay";
 
 		public static readonly string FileExtension = ".txt";
 
